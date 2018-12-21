@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Spatio-temporal Bias in Malware Classification</title>
+  <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+ <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Spatio-temporal Bias in Malware Classification</h1>
+<h3>Introduction</h3>
+<p>
+Tremendous computational power is very dangerous, but at the same time very useful. Advancements in artificial intelligence and more 
+specifically machine learning have allowed us to achieve incredible results. It is now clear that really the only thing stopping us is 
+data and more computational power. 
+<p>
+Machine learning algorithms such as support vector machines (SVMs) or random forests (RFs) have shown incredible results ($F_1$ up to 0.99),
+so why are we still affected by malware? <a href="https://arxiv.org/abs/1807.07838">This</a> paper methodically breaks down the problem 
+and comes up with a solution: Tesseract. 
+
+<h3>Spatio-temporal Bias and Tesseract</h3>
+Classification of malware breaks down to a non-trivial machine learning problem. The dynamic nature of these programs makes it very difficult
+to sustain high levels of precision for prolonged amounts of time. For this reason, it is very common for algorithms to boast inflated
+precision, recall or $F_1$.
+<p>
+This is due to two main reasons: spatial and temporal bias. Temporal bias refers to the fact that training and testing samples have to be
+temporally consistent. Spatial bias refers to the fact that the malware to goodware ratio has to be as similar as possible
+in the testing set as it is in the wild. The danger of not respecting these two biases results in possible inflation of performance, 
+meaning that the true performance is actually worse than claimed. 
+<p>
+Temporally consistency simply means that the training set has to be temporally antecedent to the testing set to simulate how these 
+algorithms would be utilized in production. The developing nature of malware makes it so that these algorithms have a very defined 
+lifetime and will need to be retrained as they will not be able to classify correctly more modern malware. 
+<p>
+The aformentioned paper comes up with solutions to this bias problem by creating 3 constraints. Let's divide the training set $Tr$ in $n$
+partitions of fixed size $\Delta$ (I will not go over specific details as they are clearly explained in the paper). Let's also call our
+testing set $Ts$. The first constraint demands the elements in $Tr$ to be temporally antecedent to $Ts$, namely:
+
+$$timestamp(s_i) < timestamp(s_j), \forall s_i \in Tr, \forall s_j \in Ts$$ 
+
+Constraint 2 demands that each objects in the slot $[t_i, t_i + \Delta)$ is within the same time window: 
+
+$$\min_{timestamp([t_i, t_i + \Delta))} s_k \leq s_k \leq \max_{timestamp([t_i, t_i + \Delta))} s_k, \forall s_k \in [t_i, t_i + \Delta)$$
+
+Lastly, constraint 3 demands that the malware to goodware ratio in $Ts$ is as similar as possible to the malware to goodware ratio in the wild.
+<p>
+These constraints allow us to define a new metric AUT ($AUT \in [0,1]$) which allows us to truly classify these algorithms. It is important to notice that 
+AUT is a function of a performance metric ($F_1$, recall, precision) and the number of test slots. These constraints and new metric allow us to finally be 
+able to truly evaluate the performance of the algorithms without having them be inflated by experimental bias. A high AUT score guarantees that the 
+algorithm will perform as expected in the wild. The python tesseract library is a fool-proof way to make sure that you are calculating the correct AUT
+score, alongside offering numerous other features. 
+
+<h3>How can we fix this?</h3>
+<p>
+Incremental retraining involves the relabeling of every support vector in the new dataset. This is clearly very costly, so we can use query strategies to select
+a smaller number of support vectors and still be efficient. This is called active learning. For example, the slope of the decision boundary of an SVM is most 
+greatly affected by the support vectors
+which neighbour it, we can consider these SVs to be the most uncertain cases and thus the best candidates for relabeling.
+This means choosing your SVs wisely would give you a higher bang for buck when it
+comes to the relabeling cost.
+
+<p> 
+Another approach could be to use a reject option. We can establish a limit of uncertainty, after which the machine will simply put the object in quarantine. 
+The advantage of this is that training on these objects will be highly efficient as they are the ones the algorithm is not sure about. 
+
+<p>
+The main disadvantage of both methods is the cost assosciated with them; however, with cost comes a benefit in AUT, it therefore becomes a compromise between
+AUT improvement and relabeling/computational cost.
+
+ 
+<h3>Conclusion</h3> 
+<p>
+We quickly went over some of the current issues of machine learning related to cyber security and a possible way to overcome them.I tried to give a very high
+level view of the issues and quickly explain possible solutions. 
+If this has spiked your interest, I suggest that you read the paper cited above. This is a gentle introduction to a possible use of machine learning, 
+next I will cover the mathematics behind: support vector machines and random forests. I will also cover confusion matrices and their uses in model analysis.
+</div>
+</body>
+</html>
