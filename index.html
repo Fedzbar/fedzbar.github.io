@@ -51,7 +51,7 @@ $$timestamp(s_i) < timestamp(s_j), \forall s_i \in Tr, \forall s_j \in Ts$$
 
 Constraint 2 demands that each objects in the slot $[t_i, t_i + \Delta)$ is within the same time window: 
 
-$$\min_{timestamp([t_i, t_i + \Delta))} s_k \leq s_k \leq \max_{timestamp([t_i, t_i + \Delta))} s_k, \forall s_k \in [t_i, t_i + \Delta)$$
+$$\min_{s_k} timestamp(s_k) \leq s_k \leq \max_{s_k} timestamp(s_k), \forall s_k \in [t_i, t_i + \Delta)$$
 
 Lastly, constraint 3 demands that the malware to goodware ratio in $Ts$ is as similar as possible to the malware to goodware ratio in the wild.
 <p>
