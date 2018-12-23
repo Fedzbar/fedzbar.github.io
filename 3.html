@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>A Mathematical Derivation of Support Vector Machines</title>
+  <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+ <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+<div class="container">
+	$\newcommand{\Lagr}{\mathcal{L}}$
+	<h1>A Mathematical Derivation of Support Vector Machines</h1>
+	<h3>Introduction</h3>
+	<p>Support vector machines are incredibly powerful classifiers which can be used in many different scenarios. The algorithm was developed in 1963, but only become popular in 1992 after the 
+	kernel trick was introduced. We will be discussing the kernel trick at a later date.
+	
+	<h3>Derivation</h3>
+	<p>Let's assume we have a binary classification problem and the data is linearly separable. We can draw a lot of lines to separate the data so which one is the optimal line? One way to think
+	about it is to separate the data by maximizing the distance from which each point is from the separation line. This is the intuition behind SVMs. <br>
+	<img src="optimal-hyperplane.png">
+	
+	From the image, the separation line is called the hyperplane, we want to maximize the margin and each element is called a support vector.
+	Let's try to create a decision rule now for classification. We can take the cross product between a vector $\vec{w}$ which is orthogonal
+	to the hyperplane and the support vector ($\vec{u}$), then if this is bigger than a certain value, it will be on the "right" side of the decision boundary,
+	conversely it will be on the left side. We therefore get:
+	
+	$$\vec{w} \cdot \vec{u} + b \geq 0$$
+	
+	for "positive" classification cases. This reasoning; however, removes the whole margin shown in the picture, to avoid this problem we want to make the whole
+	equation be greater than 1 for positive cases and smaller than 1 for negative cases (instead of simply 0). To write this more compactly, let's let
+	$y_i \in \{-1,1\}$, $y_i$ will be negative for negative classifications and positive otherwise, we therefore get ($\vec{u}$ becomes $\vec{x_i}$):
+	
+	$$y_i(\vec{w} \cdot \vec{x_i} +b) \geq 1$$
+	
+	For examples in the "gutter" of the street, we get:
+	
+	$$y_i(\vec{w} \cdot \vec{x_i} +b) = 0$$
+	
+	This is great! We have now defined how we can classify different support vectors. Let's try to figure out how to define the margin as that is what we want to maximize.
+	Let's assume $\vec{x}_{-}$ is the vector sitting on the lower margin and $\vec{x}_{+}$ on the upper margin. The unit vector orthogonal to the hyperplane will be $\frac{\vec{w}}{||\vec{w}||}$.
+	This means that the width of the margin will be the dot product between the unit orthogonal vector and the difference of the two margins:
+	
+	$$width = \left(\vec{x}_{+} - \vec{x}_{-}\right)\cdot \frac{\vec{w}}{||\vec{w}||}$$
+	
+	From now on I will be dropping the vector notation as it becomes redundant. With some neat algebra trickery, we can use the constraint from vectors inside the margin
+	to evaluate the dot product (fun exercise) which gives us: 
+	
+	$$width = \frac{(1-b)+(1+b)}{||w||} = \frac{2}{||w||}$$
+	
+	Now this is the value we want to maximize, the width (last step will help with the algebra later): 
+	
+	$$\max \frac{2}{||w||} =  \max \frac{1}{||w||} = \min ||w|| = \min \frac{1}{2} ||w||^2$$ 
+	
+	Hang on, we now want to find the extrema of a function under a certain constraint. Langrage multipliers! Recall the formula from vector calculus:
+	
+	$$\nabla f = \lambda \nabla g$$
+	
+	Let's write the Lagrangian of this system:
+	
+	$$\Lagr = \frac{1}{2} ||w||^2 - \sum \alpha_i [y_i(w \cdot x_i + b) -1]$$
+	
+	Let's start evaluating some partial derivatives:
+	
+	$$\frac{\partial \Lagr}{\partial w} = w - \sum \alpha_i y_i x_i = 0 \implies w = \sum \alpha_i y_i x_i$$
+	
+	$$\frac{\partial \Lagr}{\partial b} = - \sum \alpha_i y_i = 0 \implies \sum \alpha_i y_i = 0$$
+	
+	Let's plug in our results into $\Lagr$:
+	$$\begin{align}
+	\Lagr &= \frac{1}{2}\sum \alpha_i y_i x_i\cdot \sum \alpha_j y_j x_j - \sum \alpha_i y_i x_i \cdot \sum \alpha_j y_j x_j - \sum \alpha_i y_i b + \sum \alpha_i \\
+	\Lagr &= -\frac{1}{2}\sum \alpha_i y_i x_i\cdot \sum \alpha_j y_j x_j - 0 + \sum \alpha_i \\
+	\Lagr &= \sum \alpha_i - \frac{1}{2} \sum_i \sum_j \alpha_i \alpha_j y_i y_j x_i \cdot x_j
+	\end{align}$$
+	
+	Our new decision rule for positive cases becomes:
+	$$\sum \alpha_i y_i x_i \cdot u + b \geq 0$$
+	
+	As we can see from the last two equations, the classification purely depends on the result of the dot product.
+	
+	<h3>Conclusion</h3>
+	I have shown a derivation of support vector machines. The equations can be solved by numerical analysis and what results is a quadratic optimization problem. Solving that is not important 
+	as what really is important is understanding the mathematics behind it. Hope you enjoyed the read!
+	
+</div>
+</body>
+</html>
