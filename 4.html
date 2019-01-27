@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Generative Adversarial Networks</title>
+  <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+ <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<h1>Generative Adversarial Networks (GANs)</h1>
+	<h3>Introduction</h3>
+	<p>Generative Adversarial Networks (GANs) introduce by Goodfellow <i>et al</i> in 2014 are a brilliant solution to many very interesting problems in unsupervised machine learning. They have been applied 
+	with great results in generation of paintings, clothing, video and imagery in general. They consist of two networks working against each-other in a zero-sum game framework, meaning that the gain of one
+	is the loss of the other.
+	
+	<h3>Implementation</h3>
+	<img src="GANs.png" style="width:100%">
+	<p>The model consists of a generator and discriminator network. The idea is actually simple, but at the same time extremely powerful and elegant. Let's consider the case of generaing photo-realistic 
+	images of faces. We have a large dataset of faces and want to generate new ones. The goal of the discriminator is therefore to recognize if a face was generated from the generator or is actually a 
+	real image from the dataset. The two networks work simultaneously and against each-other, the discriminator trains on images from the dataset and from the generator and then tries to distinguish the 
+	two, the generator tries to improve its weights and biases until the discriminator cannot distinguish the fake and real images anymore and starts exhbiting random behaviour. The result of this is that 
+	the discriminator becomes extremely good at classifying true and fake images while the generator becomes extremely good at generating realistic images. Obviously the generator network is what is more 
+	interesting to us. This idea can be implemented with deep learning or even deep learning convolutional networks and the results are truly astonishing. Ideas like these are what are pushing forward fields
+	such as machine vision and machine learning. The idea proposed by Goodfellow <i>et al</i> has truly been a driving force in my own research which involves collaborative networks and conformal 
+	prediction theory for the detection of concept drift in malware classification which I might discuss at a later point.
+	<p>
+	It is interesting to see how initally what seems to be random Gaussian noise generated morphs into photo-realistic imagery as shown below. It is imperative to realize the fact that GANs are not able
+	to generate images from thin air but still require input. This is because the generator effectively learns the distribution of the feature vector's elements and does not generate it from a pseudo-random
+	distribution. 
+	
+	<img src="gan_res.jpg" style="width:100%">
+	
+	
+
+</div>
+</body>
+</html>
