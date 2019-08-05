@@ -26,36 +26,36 @@
 	<p>
 		In analysis, Lipschitz continuity, named after German mathematician Rudolf Lipschitz, is a stronger condition
 		of uniform continuity and thus continuity. Given two metric spaces $(X, D_x)$ and $(Y, D_y)$, a function
-		$f: X \mapsto Y$ is called Lipschitz continuous if: 
+		$f: X \mapsto Y$ is called Lipschitz continuous if:
 
 		$$D_y(f(x_1), f(x_2)) \leq kD_x(x_1, x_2)$$
 
 		k is known as the Lipschitz constant and the function can be called k-Lipschitz. Geometrically,
-		this can be seen as a restriction on the rate of change of the function. 
+		this can be seen as a restriction on the rate of change of the function.
 	</p>
-	
+
 	<h5>Lipschitz regularization for Neural Networks</h5>
 	<p>
 		In general, we would like neural networks (NNs) to not be overly-sensitive towards a perturbation of the input, as this
-		would make the network more subsceptible to adversarial attacks. One way to measure this subsceptibility to adversarial 
-		attacks is the Lipschitz constant of the network, which gives an upper bound to how effective a perturbation can be. 
+		would make the network more subsceptible to adversarial attacks. One way to measure this subsceptibility to adversarial
+		attacks is the Lipschitz constant of the network, which gives an upper bound to how effective a perturbation can be.
 
 		For this reason, it is of interest to try to enforce (and estimate) the Lipschitz constant for NNs. Unfortunately,
-		it has been proven that the computation complexity of this constant is <a href="https://arxiv.org/pdf/1805.10965.pdf">NP-hard</a>, 
+		it has been proven that the computation complexity of this constant is <a href="https://arxiv.org/pdf/1805.10965.pdf">NP-hard</a>,
 		that same paper also proposes an algorithm to compute an upper bound for the constant algorithmically.
 	</p>
-	
+
 	<h5>Upper bound estimation of the Lipschitz Constant for Neural Networks</h5>
-	<p> 
-		This other <a href="https://arxiv.org/pdf/1804.04368.pdf">paper</a>, proposes a clever way of computing the upper bound: 
-		<br> 
+	<p>
+		This other <a href="https://arxiv.org/pdf/1804.04368.pdf">paper</a>, proposes a clever way of computing the upper bound:
+		<br>
 		Let's consider a feed-forward neural network architecture as a series of function compositions:
 
 		$$f(\overrightarrow{x}) = (\phi_l \circ \phi_{l-1} \circ ... \circ \phi_1)(\overrightarrow{x})$$
-		
+
 		We can now use the fact that if f is $k_1$-Lipschitz and g is $k_2$-Lipschitz then $f \circ g$ is at least $k_1k_2$-Lipschitz
 		to compute an upper-bound. From now we will use the notation $L(f)$ to mean the Lipschitz constant of the function f.
-		
+
 		$$L(f) \leq \prod \limits_{i=1}^{l} L(\phi_i)$$
 
 		The paper then continues to compute $L(\phi_i)$ for common layers used inside NNs, the actual computations involve some linear algebra
@@ -66,14 +66,14 @@
 	<p>
 		Now it is of interest to us to "enforce" a certain $L(f)$ for our network. The easiest way to do this is via a projection
 		function during stochastic gradient descent (SGD) which is applied to the weight matrix of each layer (the weight matrix is what
-		is respnsible for the individual constant of each layer). The paper suggests the following formula:
+		is responsible for the individual constant of each layer). The paper suggests the following formula:
 
 		$$\pi(W, \lambda) = \frac{1}{\max(1, \frac{||W||_p}{\lambda})}W$$
-		
-		Which will keep the weight matrix the same if it does not violate the constraint and reduce it by factor of 
-		$\frac{\lambda}{||W||_p}$ otherwise, where for a l-layered NN, $\lambda^l$ is our desired upper bound for the Lipschitz constant. 
+
+		Which will keep the weight matrix the same if it does not violate the constraint and reduce it by factor of
+		$\frac{\lambda}{||W||_p}$ otherwise, where for a l-layered NN, $\lambda^l$ is our desired upper bound for the Lipschitz constant.
 		p is a p-norm of choice, defined by $||x||_p=(\sum_{i=1}^n |x_i|^p)^{\frac{1}{p}}$ in $L_p$ space.
-	
+
 		The paper then goes to show the results of applying this constraint, very interesting stuff!
 	</p>
 
