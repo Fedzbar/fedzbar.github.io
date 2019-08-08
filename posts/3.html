@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <meta name="author" content="Federico Barbero">
+
+  <title>Operator theory - Spaces and Operators (Intro)</title>
+  <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+ <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<h3>Operator theory - Spectral Theory Introduction</h3>
+  <h5>Preliminary Results</h5>
+  Let's start with some definitions. Let $A$ be an operator from a vector space $X$ into 
+  a vector space $Y$. We define the kernel of A to be: 
+
+  $$  
+    \text{Ker}(A) := \{x \in X: Ax = 0 \}
+  $$
+
+  and the range of A: 
+
+  $$
+    \text{Ran}(A) := \{Ax : x \in X\}
+  $$
+
+  It is clear that the kernel is a linear subspace of X, while the range is a linear subspace of Y. 
+  We are ready to introduce an important theorem.
+
+  <br> 
+
+  Theorem: Let X and Y be Banach spaces and $B \in \mathcal{B}(X, Y)$ with $\text{Ker}(B) = {0}$ and 
+  $\text{Ran(B)} = Y$, then the inverse operator $B^{-1} : Y \mapsto X \in  \mathcal{B}(Y, X)$ (is bounded).
+  What this theorem says is that a bijective bounded linear operator has a bounded inverse.
+
+  Before defining the spectrum, we also have to prove some results for inverse bounded operators.
+
+  <br> 
+
+  By $I$ we denote the Identity operator ($Ix = x \forall x \in X$).
+
+  <br> 
+  Let X be a Banach space, $B \in \mathcal{B}(X)$ and $||B|| < 1$, then $I-B$ is invertible,
+  
+  $$(I-B)^{-1} = \sum \limits_{n=0}^{\infty} B^n$$ 
+  and 
+  $||(I-B)^{-1}|| \leq \frac{1}{1 - ||B||}$.
+  <br> 
+  Proof:
+  It follows that from the fact that for two operators A and B then $||AB|| \leq ||A||||B||$ that 
+  
+  
+  $$||B^n|| \leq ||B^{n-1}||||B||| \leq ... \leq ||B||^n$$ 
+  
+  From the fact that $||B|| < 1$, 
+  we get that the series $\sum \limits_{n=0}^{\infty} ||B||^n$ converges absolutely, and since X is a 
+  Banach space, any absolutely convergent series converges so we get that $\sum \limits_{n=0}^{\infty} B^n$ 
+  is also convergent. This is because:
+
+  $$\sum \limits_{n=0}^{\infty} ||B^n|| \leq \sum \limits_{n=0}^{\infty} ||B||^n$$
+
+  from the inequality shown above. Now let's prove that the inverse exists, to show that $S = (I - B)^{-1}$ we must show that
+  $S(I-B) = (I-B)^{-1}(I-B) = I$: 
+
+  $$
+    S(I - B) = \sum \limits_{n=0}^{\infty} B^n (I - B) = \sum \limits_{n=0}^{\infty} B^n  - \sum \limits_{n=0}^{\infty} B^{n+1} = I
+
+  $$
+  
+  (similar argument works for $(I-B)S$) To summarise, we just showed that $(I-B)^{-1}(I-B) = I$ and thus that the series is indeed equal to that inverse operator. The inequality can be easily
+  proven with the well known geometric series result. QED.
+
+  <h5>The spectrum</h5>
+  Let X be a Banach space and $B \in \mathcal{B}(X)$. The resolvent set $\rho(B)$ of the operator B is 
+  the set of all $\lambda \in \mathbb{C}$ such that $B - \lambda I$ is invertible. The spectrum $\sigma(B)$ is the complement
+  of this set: $\sigma(B) = \mathbb{C} \setminus \rho(B)$. We can therefore see that all eigenvalues of B belong to 
+  $\sigma(B)$. 
+  
+  <br>
+  Proof:
+
+  Suppose $\lambda$ is an eigenvalue for a respective eigenvector $\psi$ ($\psi \neq 0$). Then: 
+  $(B - \lambda I)\psi = 0$, but since we also have that $(B - \lambda I)0 = 0$ we notice that the operator 
+  $(B - \lambda I)\psi$ is not injective and thus not invertible and thus part of $\sigma(B)$. QED.
+  Note that the set of eigenvalues may be smaller than the spectrum of B.
+
+  <br>
+  The spectral radius $r(B)$ is defined to be:
+
+  $$r(B) := \sup\{|\lambda|: \lambda \in \sigma(B)\}$$
+
+  Therefore the spectral radius is the minimal ball centered at 0 containing the spectrum. We also get
+  that (the proof is quite involved).
+  $$
+    r(B) = \lim_{n \to \infty} ||B^n||^{\frac{1}{n}}
+  $$
+
+  For completeness, I will mention adjoint operators, which for an operator $A \in \mathcal{B}(X, Y)$ is defined
+  to be $A^* : Y^* \mapsto X^*$ by: 
+
+  $$(A^*g)(x) := g(Ax), \forall g \in Y^*, \forall x \in X$$
+
+  and a projection which is an idempotent operator ($A = A^2$).
+
+  To conclude, let's introduce compact linear operators. A linear operator $T: X \mapsto Y$ is called compact if it maps
+  closed subsets of X to relatively compact sets of Y (relatively compact means that the closure of the set is compact).
+
+</div>
+</body>
+</html>
