@@ -38,8 +38,8 @@ $$ \mathcal{M} = \cup_{1 \leq j \leq C} \mathcal{M}_j$$
 Now define the decision axis $\Lambda_p$ to be the "optimal" decision boundary. That is: the decision axis separates the class manifolds when there is no interesection between them 
 and this separation is a large as possible under the metric induced by the canonical p-norm. Now define the reach $\text{rch}_p (T; \mathcal{M})$ for $T \in \mathbb{R}^n$ to be defined as
 $\inf_{x \in \mathcal{M}, y \in T} ||x-y||_p$. This is a useful quantity to keep in mind when considering it as: $\text{rch}_p (\Lambda_p; \mathcal{M})$ as in practice it is the smallest distance
-between the decision axis and the the data manifold. Finally, let's introduce an $\epsilon$-tubular neighborhoods of $\mathcal{M}$ as: $\mathcal{M}^{\epsilon, p} := \{x \in \mathbb{R}^n | \inf_{y \in \mathcal{M}} ||x-y||_p \leq \epsilon\}$, the
-set of points whose distance to the data manifold under the canonical metric induced by the p-norm is less than $\epsilon$. Now we can formally introduce an adversarial example for class $i \in C$ and a classifier 
+between the decision axis and the the data manifold. Finally, let's introduce $\epsilon$-tubular neighborhoods of $\mathcal{M}$ as: $\mathcal{M}^{\epsilon, p} := \{x \in \mathbb{R}^n | \inf_{y \in \mathcal{M}} ||x-y||_p \leq \epsilon\}$, the
+set of points whose distance to the data manifold under the canonical metric induced by the p-norm is less than $\epsilon$. Now we can formally introduce an $\epsilon$-adversarial example for class $i \in C$ and a classifier 
 $f : \mathbb{R}^n \to [C]$ as a point $x \in \mathcal{M}^{\epsilon, p}_i$ such that $f(x) \neq i$. 
 <br>
 Notice that the decision axis $\Lambda_2$ for example will be different from $\Lambda_{\infty}$ and in general from any other non-equivalent norm. This means that the decision boundary which can be thought of as a non-optimal 
